@@ -1,9 +1,9 @@
 #freeCodeTheme
 ##这里记录的是freeCodeCamp前端题目集和解题时自己重点标出的内容
-
+<br>
 1.      当 JavaScript 中的变量被声明的时候，程序内部会给它一个初始值 undefined。
-当你对一个值为 undefined 的变量进行运算操作的时候，算出来的结果将会是 NaN，NaN 的意思是 "Not a Number"。
-当你用一个没有 定义 的变量来做字符串连接操作的时候，它会如实的输出"undefined"。
+	<br>当你对一个值为 undefined 的变量进行运算操作的时候，算出来的结果将会是 NaN，NaN 的意思是 "Not a Number"。
+	<br>当你用一个没有 定义 的变量来做字符串连接操作的时候，它会如实的输出"undefined"。
 
 2.      += 等于 = .. + ..
 
