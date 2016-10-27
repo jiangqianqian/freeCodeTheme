@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <link rel="stylesheet" href="themes/css/bootstrap.css">
+    <style>
+    * {
+        margin: 0;
+        padding: 0;
+    }
+
+    body {
+        font-family: "microsoft yahei";
+        font-size: 14px;
+        overflow-x: hidden;
+    }
+
+    .qianxun-nav {
+        position: fixed;
+        width: 100%;
+        background-color: rgba(0, 0, 0, .8);
+        color: #fff;
+    }
+
+    .navbar-nav a {
+        color: #fff;
+    }
+
+    .navbar-nav a:hover {
+        background-color: #4CAF50!important;
+    }
+
+    .qianxun-nav .navbar-toggle .icon-bar {
+        background-color: #bbb;
+    }
+    .section{
+      width: 100%;
+      height: 800px;
+    }
+    .setion-a {
+        padding-top: 16%;
+        text-align: center;
+        background: url(./images/3.jpg) center center fixed;
+        background-size: cover;
+    }
+    .setion-b{
+      background: url(./images/4.jpg) center center fixed;
+      background-size: cover;
+    }
+    .setion-c{
+      background: url(./images/2.jpg) center center fixed;
+      background-size: cover;
+    }
+    .setion-d{
+      background: url(./images/1.jpg) center center fixed;
+      background-size: cover;
+    }
+
+    .main-title {
+        color: #fff;
+        font-weight: bold;
+        text-shadow: 1px 3px 5px rgba(0, 0, 0, .6);
+        font-size: 48px;
+    }
+
+    .sub-title {
+        padding-top: 10px;
+        font-size: 24px;
+        color: #333;
+    }
+    .btn-social{
+      padding-top: 20px;
+    }
+    .btn-social .btn{
+      margin-left: 15px;
+      transition:transform ease 0.3s;
+    }
+    .btn-social .btn:hover{
+      transform:scale(1.2);
+    }
+    .setion-b{
+      padding-top: 18%;
+    }
+    .photo{
+      width: 300px;
+      height: 300px;
+      margin-left:30%;
+      border-radius: 50%;
+      border:1px solid #4CAF50;
+      overflow: hidden;
+    }
+    .photo img{
+      width: 100%;
+      height: 100%;
+    }
+    </style>
+</head>
+
+<body>
+    <header class="navbar navbar-static-top qianxun-nav" id="top" role="banner">
+        <div class="container">
+            <div class="navbar-header">
+                <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target=".bs-navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <span class="navbar-brand">千寻</span>
+            </div>
+            <nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#">首页</a>
+                    </li>
+                    <li>
+                        <a href="#">关于我</a>
+                    </li>
+                    <li>
+                        <a href="#">工作</a>
+                    </li>
+                    <li>
+                        <a href="#">联系我</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <div class="section setion-a">
+        <div class="row">
+            <div class="col-xs-12">
+                <h1 class="main-title">Infinito Web Design Studio</h1>
+                <h4 class="sub-title">Where Awesomeness Is Brought To Life.</h4>
+                <!-- Large button group -->
+                <div class="btn-social">
+                    <button class="btn btn-default btn-lg" type="button">
+                        Github</span>
+                    </button>
+                    <button class="btn btn-default btn-lg" type="button">
+                        Freecodecamp</span>
+                    </button>
+                    <button class="btn btn-default btn-lg" type="button">
+                        知乎</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="section setion-b">
+      <div class="row">
+        <div class="col-xs-5">
+          <div class="photo">
+            <img src="images/timg.jpg" alt="">
+          </div>
+        </div>
+        <div class="col-xs-7">
+          <h1 class="main-title" style="padding-top:50px;">Infinito Web Design Studio</h1>
+          <h4 class="sub-title">Where Awesomeness Is Brought To Life.</h4>
+        </div>
+      </div>
+    </div>
+    <div class="section setion-c"></div>
+    <div class="section setion-d"></div>
+    <script src="themes/js/jquery-1.11.3.min.js"></script>
+    <script src="themes/js/bootstrap.js"></script>
+</body>
+
+</html>

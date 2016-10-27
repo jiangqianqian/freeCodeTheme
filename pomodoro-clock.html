@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <style>
+  * {
+    margin: 0;
+    font-family: Open Sans, Arial;
+  }
+
+  html,
+  body,
+  main {
+    height: 100%;
+    overflow: hidden;
+    background-color: #333333;
+  }
+
+  h1 {
+    display: block;
+    background-color: #333333;
+    margin: 0 auto;
+    color: white;
+    text-align: center;
+    font-family: 'Pacifico';
+    font-size: 5em;
+  }
+
+  header {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    margin: 0 auto;
+    color: #fff;
+    text-transform: uppercase;
+    padding: 20px;
+  }
+
+  header .session {
+    font-size: .8em;
+    display: flex;
+  }
+
+  header .session .breakCtrl,
+  header .session .sessionCtrl {
+    display: inline;
+    padding-left: 30px;
+    padding-right: 30px;
+  }
+
+  header .session .minus,
+  header .session .plus {
+    background-color: #333333;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    font-size: 2em;
+    outline: none;
+  }
+
+  header .session .time {
+    font-size: 2.5em;
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  section {
+    background-color: #333333;
+    height: 100%;
+    color: #fff;
+  }
+
+  section .title {
+    text-align: center;
+    line-height: 180px;
+    font-size: .8em;
+  }
+
+  section .timer {
+    margin: 0 auto;
+    text-align: center;
+    width: 300px;
+    height: 300px;
+    font-size: 4em;
+    border: 2px solid #99CC00;
+    border-radius: 50%;
+    cursor: pointer;
+    position: relative;
+    z-index: 20;
+    overflow: hidden;
+  }
+
+  section .timer:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    border-radius: 50%;
+    z-index: 2;
+    border: 4px solid #333333;
+  }
+
+  section .fill {
+    content: '';
+    position: absolute;
+    background: #99CC00;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    z-index: -1;
+  }
+  </style>
+</head>
+
+<body>
+  <div id="content"></div>
+  <main id="main">
+  </main>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.3.1/react.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.3.1/react-dom.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.24/browser.min.js"></script>
+  <script type="text/babel">
+    var PomoComp = React.createClass({
+    getInitialState:function(){
+      return {
+      breakValue:5,
+      sessionValue:25,
+      fillColor:'green',
+      fillHeight:0,
+      timeLeft:0,
+      seconds:0,
+      flag:'session',
+      title:'session',
+      value:0
+      }
+    },
+    componentDidMount:function(){
+      this.setState({seconds : this.state.sessionValue*60,value:this.state.sessionValue*60,timeLeft:this.state.sessionValue});
+    },
+    breakClickAdd:function(){
+      this.setState({breakValue:this.state.breakValue+1})
+    },
+    breakClickMinus:function(){
+    if(this.state.breakValue>1) {
+      this.setState({breakValue:this.state.breakValue-1})
+    }
+    },
+    sessionClickAdd:function(){
+      if(!this.timer){
+      this.setState({sessionValue:this.state.sessionValue+1});
+        if(this.state.flag == 'session') {
+          this.setState({timeLeft:this.state.sessionValue+1,seconds : (this.state.sessionValue+1)*60,fillHeight:0});
+        }
+      }
+    },
+    sessionClickMinus:function(){
+    if(this.state.sessionValue>1&&!this.timer) {
+      this.setState({sessionValue:this.state.sessionValue-1});
+      if(this.state.flag == 'session') {
+          this.setState({timeLeft:this.state.sessionValue-1,seconds : (this.state.sessionValue-1)*60,fillHeight:0});
+        }
+    }
+    },
+    footerClick:function(){
+        if(this.timer) {clearInterval(this.timer);this.timer = 0;}
+        else {this.timer = setInterval(function(){
+          if(this.state.seconds == 0) {
+            if(this.state.flag == 'session'){
+              this.setState({seconds : this.state.breakValue*60,timeLeft:this.state.breakValue,value:this.state.breakValue,flag:'break',fillHeight:0,fillColor:'red',title:'break'});
+            }else if(this.state.flag == 'break'){
+              this.setState({seconds : this.state.sessionValue*60,timeLeft:this.state.sessionValue,flag:'session',fillHeight:0,fillColor:'green',title:'session'});
+            }
+
+          }
+          this.state.seconds--;
+          var hms = this.secondsToHms(this.state.seconds);
+          var value;
+          if(this.state.flag == 'session') {
+            value = this.state.sessionValue;
+          }else{
+            value = this.state.value;
+          }
+          this.setState({timeLeft:hms,fillHeight:100*(1-(this.state.seconds/(value*60)))});
+        }.bind(this),1000);
+        }
+    },
+    secondsToHms:function(d){
+    var h = Math.floor(d/3600);
+    var m = Math.floor(d%3600/60);
+    var s = Math.floor(d%3600%60);
+    return (h > 0 ? h + ':' + (m < 10 ? '0' : '') : '') + m + ':' + (s < 10 ? '0' : '') + s;
+    },
+      render:function(){
+      var style = {
+      height:this.state.fillHeight+'%',
+      background:this.state.fillColor
+      };
+      return  <div><header id="header">
+      <div className="session">
+        <div className="breakCtrl">
+          <p>break length</p>
+          <button className="minus" onClick={this.breakClickMinus}>-</button><span className="time">{this.state.breakValue}</span>
+          <button className="plus" onClick = {this.breakClickAdd}>+</button>
+        </div>
+        <div className="sessionCtrl">
+          <p>session length</p>
+          <button className="minus" onClick={this.sessionClickMinus}>-</button><span className="time">{this.state.sessionValue}</span>
+          <button className="plus" onClick = {this.sessionClickAdd}>+</button>
+        </div>
+      </div>
+    </header>
+    <section id="footer" onClick = {this.footerClick}>
+      <div className="timer">
+        <p className="title">{this.state.title}</p>
+        <p>{this.state.timeLeft}</p><span  className="fill" style={style}></span>
+      </div>
+    </section></div>;
+      }
+    });
+
+    ReactDOM.render(
+    <PomoComp />,
+      document.getElementById("main"))
+  </script>
+</body>
+
+</html>

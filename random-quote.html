@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <style>
+    .s-text{
+      width: 500px;
+      height: 500px;
+      border:1px solid #e0e0e0;
+      padding:10px;
+      color:#fff;
+      background-color: #fff;
+    }
+  </style>
+</head>
+<body>
+<button id="qutoe">脑筋急转弯</button>
+<div class="s-text">
+</div>
+<script src="jquery-1.11.3.min.js"></script>
+<script src='//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js'></script>
+<script>
+var colors = ['#03a9f4', '#ff8e6b', '#f6bf26', '#f65e5e', '#6bb5ce', '#5c6bc0', '#78c06e', '#9a89b9', '#a1887f', '#78919d', '#5e97f6', '#bd84cd', '#3bc2b5', '#a1887f', '#c5cb63'];
+var quotes = ['三加三得几? (打一字) ？','什么样的人死后还可以出现？','姑妈送给小花一只小猫，这只小猫没有死掉，也没有跑掉，小花也没有把它送人，为什么三个月后姑妈来小花家在没有看见小猫？','一辆高速行驶的汽车在过一个90°的弯时，哪个轮子一定离开地面?','开学后的最大愿望是什么？','二人力大顶破天。（打一字）?'];
+  $(function(){
+    qutoe();
+    $('#qutoe').on('click',function(){
+      qutoe();
+    });
+  })
+
+  function qutoe(){
+    $('.s-text').animate({'opacity':0},500,function(){
+      var value = colors[Math.floor(Math.random()*colors.length)];
+      $(this).animate({opacity:1,backgroundColor:value}, 500).html(quotes[Math.floor(Math.random()*quotes.length)]);
+    })
+    // $('.s-text').html(quotes[Math.floor(Math.random()*quotes.length)]).css('background-color',colors[Math.floor(Math.random()*colors.length)]);
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <style>
+  body {
+    margin: 0;
+    padding: 0;
+  }
+
+  .s_txt {
+    width: 388px;
+    height: 34px;
+    border-radius: 3px;
+    border: 1px solid rgb(204, 204, 204);
+    padding-left: 10px;
+  }
+
+  .s_sub {
+    border: 1px solid rgb(230, 80, 30);
+    color: rgb(230, 80, 0);
+    border-radius: 3px;
+    text-align: center;
+    padding: 0;
+    height: 35px;
+    line-height: 35px;
+    font-size: 14px;
+    width: 159px;
+    background-color: white;
+  }
+
+  .s_del {
+    border: 1px solid rgb(176, 168, 165);
+    color: rgb(176, 168, 165);
+    border-radius: 3px;
+    text-align: center;
+    padding: 0;
+    height: 35px;
+    line-height: 35px;
+    font-size: 14px;
+    width: 159px;
+    background-color: white;
+  }
+
+  .dm {
+    margin: 20px;
+    text-align: center;
+    overflow: hidden;
+  }
+
+  .dm_screen {
+    position: relative;
+    border: 1px solid rgb(229, 229, 229);
+  }
+
+  .dm .dm_screen .dm_mask {
+    width: 100%;
+    height: 380px;
+  }
+
+  .dm .dm_screen .dm_show {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 380px;
+    overflow: hidden;
+  }
+
+  .dm .dm_screen .dm_show div {
+    font-size: 22px;
+    line-height: 36px;
+    font-weight: 500;
+    color: #333;
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
+  </style>
+</head>
+
+<body>
+  <div class="dm">
+    <div class="dm_screen">
+      <div class="dm_mask"></div>
+      <div class="dm_show">
+        <!-- <div>text message</div>  -->
+        <div style="left: -1503.09px; top: 71px; color: rgb(103, 60, 38);">4543534</div>
+        <div style="left: -1727.91px; top: 171px; color: rgb(113, 152, 186);">dccc</div>
+        <div style="left: -403.021px; top: 221px; color: rgb(235, 193, 79);">tytuytu</div>
+        <div style="left: -579.131px; top: 271px; color: rgb(69, 31, 46);">tytuytu</div>
+        <div style="left: 953.23px; top: 21px; color: rgb(113, 50, 247);">4543534</div>
+        <div style="left: 1507.76px; top: 71px; color: rgb(137, 210, 88);">4543534</div>
+        <div style="left: 1725.5px; top: 121px; color: rgb(108, 107, 190);">4543534</div>
+        <div style="left: 698.021px; top: 321px; color: rgb(246, 43, 236);">tytuytu</div>
+      </div>
+    </div>
+    <div class="send">
+      <div class="s_fiter">
+        <div class="s_con">
+          <p>
+            <input placeholder="说点什么?" class="s_txt" type="text">
+          </p>
+          <p>
+            <input type="button" value="发 射" class="s_sub">
+            <input type="button" value="清 屏" class="s_del">
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="jquery-1.11.3.min.js"></script>
+  <script>
+  var timer;
+  var width = $('.dm_mask').width();
+  $(function() {
+    $('.s_del').on('click', function() {
+      if (timer) {
+        clearInterval(timer);
+      }
+      $('.dm_show').empty();
+
+    });
+    $('.s_sub').on('click', function() {
+      var text = $('.s_txt').val();
+      if (text) {
+        appendNewChild(text);
+        $('.s_txt').val('');
+      }
+
+    });
+    timer = setInterval(move, 50);
+  })
+
+
+  function move() {
+    $('.dm_show').find('div').each(function() {
+      var left = $(this).position().left;
+      if (left > 0) {
+        $(this).css({
+          'left': left - 3 + 'px'
+        })
+      } else {
+        $(this).remove();
+      }
+    });
+  }
+
+  function appendNewChild(text) {
+    var str = '<div style="top:' + Math.random() * (380 - 40) + 'px;left:' + width + 'px;color:rgb(' + Math.floor(Math.random() * 255) + ',' + Math.floor(Math.random() * 255) + ',' + Math.floor(Math.random() * 255) + ')">' + text + '</div>';
+    $('.dm_show').append(str);
+  }
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+  /*1我们有一个对象数组，里面存储着通讯录。
+    函数 lookUp 有两个预定义参数：firstName值和prop属性 。
+    函数将会检查通讯录是否存在一个联系人的firstName属性等于firstName值，还会检查对应联系人是否存在 prop属性。
+    如果它们都存在，函数返回prop属性对应的值。
+    如果firstName 值不存在，返回 "No such contact"。
+    如果prop 属性不存在，返回 "No such property"。*/
+
+  var contacts = [{
+    "firstName": "Akira",
+    "lastName": "Laine",
+    "number": "0543236543",
+    "likes": ["Pizza", "Coding", "Brownie Points"]
+  }, {
+    "firstName": "Harry",
+    "lastName": "Potter",
+    "number": "0994372684",
+    "likes": ["Hogwarts", "Magic", "Hagrid"]
+  }, {
+    "firstName": "Sherlock",
+    "lastName": "Holmes",
+    "number": "0487345643",
+    "likes": ["Intriguing Cases", "Violin"]
+  }, {
+    "firstName": "Kristian",
+    "lastName": "Vos",
+    "number": "unknown",
+    "likes": ["Javascript", "Gaming", "Foxes"]
+  }];
+
+
+  function lookUp(firstName, prop) {
+    // Only change code below this line
+    var a;
+    for (var i = 0; i < contacts.length; i++) {
+      if (contacts[i].firstName === firstName) {
+        if (contacts[i][prop]) {
+          a = contacts[i][prop];
+          break;
+        } else {
+          a = "No such property";
+          break;
+        };
+
+      } else a = 'No such contact';
+    }
+    return a;
+    // Only change code above this line
+  }
+
+  // Change these values to test your function
+  //console.log(lookUp("Akira", "address"));
+
+  /*2比较两个数组，然后返回一个新数组，该数组的元素为两个给定数组中所有独有的数组元素。换言之，返回两个数组的差异*/
+  function diff(arr1, arr2) {
+    var newArr = [];
+    // Same, same; but different.
+    var sub1 = arr1.filter(function(val) {
+      return arr2.indexOf(val) == -1;
+    });
+    var sub2 = arr2.filter(function(val) {
+      return arr1.indexOf(val) == -1;
+    });
+    newArr = sub1.concat(sub2);
+    return newArr;
+  }
+
+  diff([1, 2, 3, 5, 8], [1, 2, 3, 4, 5]);
+
+  /*3将给定的数字转换成罗马数字。*/
+  function convert(num) {
+    var arr = ['I', 'X', 'C', 'M'];
+    var other = ['V', 'L', 'D'];
+    var sum = [];
+    var arr2 = num.toString().split('').reverse();
+    for (var i = 0; i < arr2.length; i++) {
+      var s = '';
+      if (arr2[i] === 0) continue;
+      else if (arr2[i] > 0 && arr2[i] < 4) {
+        for (var j = 0; j < arr2[i]; j++) {
+          s += arr[i];
+        }
+      } else if (arr2[i] > 5 && arr2[i] < 9) {
+        s += other[i];
+        for (var x = 5; x < arr2[i]; x++) {
+          s += arr[i];
+        }
+      } else if (arr2[i] == 4) {
+        s = s + arr[i] + other[i];
+      } else if (arr2[i] == 5) {
+        s += other[i];
+      } else if (arr2[i] == 9) {
+        s = s + arr[i] + arr[i + 1];
+      }
+      sum.push(s);
+    }
+    var str = sum.reverse().join('');
+    return str;
+  }
+
+  convert(36);
+
+  /*4写一个 function，它遍历一个对象数组（第一个参数）并返回一个包含相匹配的属性-值对（第二个参数）的所有对象的数组。如果返回的数组中包含 source 对象的属性-值对，那么此对象的每一个属性-值对都必须存在于 collection 的对象中。
+
+  例如，如果第一个参数是 [{ first: "Romeo", last: "Montague" }, { first: "Mercutio", last: null }, { first: "Tybalt", last: "Capulet" }]，第二个参数是 { last: "Capulet" }，那么你必须从数组（第一个参数）返回其中的第三个对象，因为它包含了作为第二个参数传递的属性-值对。*/
+  function where(collection, source) {
+    var arr = [];
+    // What's in a name?
+    collection.forEach(function(val) {
+      var k = Object.keys(source);
+      var h = Object.keys(val);
+      var flag = 0;
+      if (h.length >= k.length) {
+        for (var i = 0; i < k.length; i++) {
+          if (!val.hasOwnProperty(k[i]) || (val.hasOwnProperty(k[i]) && source[k[i]] !== val[k[i]])) {
+            flag = 1;
+            break;
+          }
+
+        }
+        if (!flag) {
+          arr.push(val);
+        }
+      }
+    });
+    //console.log(arr)
+    return arr;
+  }
+
+  where([{
+    first: "Romeo",
+    last: "Montague"
+  }, {
+    first: "Mercutio",
+    last: null
+  }, {
+    first: "Tybalt",
+    last: "Capulet"
+  }], {
+    last: "Capulet"
+  })
+
+  where([{
+    "a": 1,
+    "b": 2
+  }, {
+    "a": 1
+  }, {
+    "a": 1,
+    "b": 2,
+    "c": 2
+  }], {
+    "a": 1,
+    "b": 2
+  })
+
+  where([{
+    "a": 1,
+    "b": 2
+  }, {
+    "a": 1
+  }, {
+    "a": 1,
+    "b": 2,
+    "c": 2
+  }], {
+    "a": 1,
+    "c": 2
+  })
+
+  /*5.写一个 function，传入两个或两个以上的数组，返回一个以给定的原始数组排序的不包含重复值的新数组。
+
+  换句话说，所有数组中的所有值都应该以原始顺序被包含在内，但是在最终的数组中不包含重复值。
+
+  非重复的数字应该以它们原始的顺序排序，但最终的数组不应该以数字顺序排序。*/
+  function unite(arr1, arr2, arr3) {
+
+    var pa = [];
+    for (var i = 0; i < arguments.length; i++) {
+      pa.push(arguments[i]);
+    }
+    var newArr = pa.reduce(function(a, b) {
+      var c = b.filter(function(val) {
+        return a.indexOf(val) == -1;
+      });
+      return a.concat(c);
+    });
+    //console.log(newArr)
+    return arr1;
+  }
+
+  unite([1, 2, 3], [5, 2, 1, 4], [2, 1], [6, 7, 8]);
+
+  /*6给一个正整数num，返回小于或等于num的斐波纳契奇数之和。
+
+  斐波纳契数列中的前几个数字是 1、1、2、3、5 和 8，随后的每一个数字都是前两个数字之和。
+
+  例如，sumFibs(4)应该返回 5，因为斐波纳契数列中所有小于4的奇数是 1、1、3。*/
+  function sumFibs(num) {
+
+    var fibo = [1, 1];
+    var oddSum = 2;
+    while (true) {
+      var item = fibo[0] + fibo[1];
+      if (num < item) {
+        return oddSum;
+      }
+      if (item % 2) {
+        oddSum += item;
+      }
+      fibo[0] = fibo[1];
+      fibo[1] = item;
+    }
+
+    //console.log(s);
+    return num;
+  }
+
+  sumFibs(4000000);
+
+  /*7求小于等于给定数值的质数之和。
+
+  只有 1 和它本身两个约数的数叫质数。例如，2 是质数，因为它只能被 1 和 2 整除。1 不是质数，因为它只能被自身整除。
+
+  给定的数不一定是质数。*/
+  function sumPrimes(num) {
+    var i, j;
+    var arr = [];
+    for (i = 2; i <= num; i++) {
+      for (j = 2; j < i; j++) {
+        if (i % j === 0) {
+          break;
+        }
+      }
+      if (i <= j) {
+        arr.push(i);
+      }
+
+    }
+    var sum = 0;
+    for (var x = 0; x < arr.length; x++) {
+      sum += arr[x];
+    }
+    //console.log(arr);
+    //console.log(sum);
+    return sum;
+  }
+  sumPrimes(10);
+  sumPrimes(977);
+
+  /*8找出能被两个给定参数和它们之间的连续数字整除的最小公倍数。
+
+  范围是两个数字构成的数组，两个数字不一定按数字顺序排序。
+
+  例如对 1 和 3 —— 找出能被 1 和 3 和它们之间所有数字整除的最小公倍数。*/
+  function smallestCommons(arr) {
+    var min = Math.min(arr[0], arr[1]);
+    var max = Math.max(arr[0], arr[1]);
+    var _arr = [];
+    for (var i = min; i <= max; i++) {
+      _arr.push(i);
+    }
+    var gcd = function(a, b) {
+      if (b) {
+        return gcd(b, a % b);
+      }
+      return a;
+    };
+    return _arr.reduce(function(prev, cur, index, array) {
+      return prev * cur / gcd(prev, cur);
+    });
+  }
+
+  //console.log(smallestCommons([1, 5]));
+  /*9写一个 function，它浏览数组（第一个参数）并返回数组中第一个通过某种方法（第二个参数）验证的元素。*/
+  function find(arr, func) {
+    var num = 0;
+    var newArr = arr.filter(function(val) {
+      if (func(val)) return val;
+    });
+    num = newArr[0];
+    return num;
+  }
+
+  find([1, 3, 5, 9], function(num) {
+    return num % 2 === 0;
+  });
+
+  /*10对嵌套的数组进行扁平化处理。你必须考虑到不同层级的嵌套。*/
+  function steamroller(arr) {
+    // I'm a steamroller, baby
+    var newArr = [];
+
+    function singal(arr) {
+      if (!Array.isArray(arr)) newArr.push(arr);
+      else {
+        for (var i = 0; i < arr.length; i++)
+          singal(arr[i]);
+      }
+    }
+    singal(arr);
+    console.log(newArr)
+    return newArr;
+  }
+
+  steamroller([1, [2],
+    [3, [
+      [4]
+    ]]
+  ]);
+
+
+  function add() {
+    if (arguments.length == 2) {
+      if (arguments[0] === parseInt(arguments[0]) && arguments[1] === parseInt(arguments[1])) {
+        return arguments[0] + arguments[1];
+      }
+
+    } else if (arguments.length == 1) {
+      if (arguments[0] === parseInt(arguments[0])) {
+        var arg = arguments[0];
+        return function(y) {
+          if (y === parseInt(y)) {
+            return arg + y;
+          }
+        }
+      }
+    }
+  }
+
+  //console.log(add(2,3));
+  console.log(add("http://bit.ly/IqT6zt"));
+
+  /*11如果传入字符串是一个有效的美国电话号码，则返回 true.*/
+  function telephoneCheck(str) {
+    // Good luck!
+    //var reg = /1\s[\(\d{3}\)|\d{3}]\s?\d{3}\d{4}/gi;
+    var reg = /^(1\s?)?(\(\d{3}\)|\d{3})(\s|\-)?\d{3}(\s|\-)?\d{4}$/gi;
+    var result = reg.test(str);
+    //console.log(result)
+    return result;
+  }
+
+
+
+  telephoneCheck("1(555)555-5555");
+
+  //12对等差分
+  function sym(args) {
+    var arr = [].slice.call(arguments);
+    //console.log(arr)
+    var newArr = arr.reduce(function(a, b) {
+        var rs1 = b.filter(function(val) {
+          return a.indexOf(val) == -1;
+        });
+        var rs2 = a.filter(function(val) {
+          return b.indexOf(val) == -1;
+        });
+        return rs1.concat(rs2).sort(function(a, b) {
+          return a - b;
+        });
+      })
+      //console.log(newArr)
+    var newArr2 = [];
+    newArr2.push(newArr[0]);
+    for (var i = 1; i < newArr.length; i++) {
+      if (newArr2.indexOf(newArr[i]) == -1) {
+        newArr2.push(newArr[i]);
+      }
+    }
+    return newArr2;
+
+  }
+
+  sym([1, 1, 2, 5], [2, 2, 3, 5], [3, 4, 5, 5]);
+
+  //13找零钱
+  var result = [];
+  var rest = 0;
+  var arr = [0.01, 0.05, 0.1, 0.25, 1, 5, 10, 20, 100];
+
+  function checkCashRegister(price, cash, cid) {
+    var change;
+    // Here is your change, ma'am.
+    result = [];
+    rest = cash - price;
+    var total = 0;
+    for (var i = 0; i < cid.length - 1; i++) {
+      total += cid[i][1];
+    }
+    if (rest == total) {
+      return "Closed";
+    } else if (rest > total) {
+      return "Insufficient Funds";
+    }
+
+    for (var i = cid.length - 1; i >= 0; i--) {
+      var a = compare(rest, cid, i);
+      if (a <= 0) break;
+    }
+    change = result;
+    if (!change.length) change = "Insufficient Funds";
+    var time2 = new Date().getTime();
+    return change;
+  }
+
+  function compare(rst, cid, index) {
+    if (rst > cid[index][1] && cid[index][1] > 0 && index !== 0) {
+      result.push(cid[index]);
+      rest = (rst - cid[index][1]).toFixed(2);
+    } else {
+      var num = parseInt(rest / arr[index]);
+      if (num >= 1 && num <= cid[index][1] / arr[index]) {
+        var newArr = [];
+        newArr.push(cid[index][0]);
+        newArr.push(num * arr[index]);
+        result.push(newArr);
+        rest = (rest % arr[index]).toFixed(2);
+
+      }
+
+    }
+    return rest;
+  }
+  var time = new Date().getTime();
+  for (var i = 0; i < 10000; i++) {
+    checkCashRegister(19.50, 40.00, [
+      ["PENNY", 1.01],
+      ["NICKEL", 2.05],
+      ["DIME", 3.10],
+      ["QUARTER", 4.25],
+      ["ONE", 90.00],
+      ["FIVE", 55.00],
+      ["TEN", 20.00],
+      ["TWENTY", 60.00],
+      ["ONE HUNDRED", 100.00]
+    ])
+  }
+  var time2 = new Date().getTime();
+  //console.log(time2 - time);
+
+
+  // console.log(checkCashRegister(3.26, 100.00, [
+  //   ["PENNY", 1.01],
+  //   ["NICKEL", 2.05],
+  //   ["DIME", 3.10],
+  //   ["QUARTER", 4.25],
+  //   ["ONE", 90.00],
+  //   ["FIVE", 55.00],
+  //   ["TEN", 20.00],
+  //   ["TWENTY", 60.00],
+  //   ["ONE HUNDRED", 100.00]
+  // ]))
+
+  // console.log(checkCashRegister(19.50, 20.00, [["PENNY", 0.01], ["NICKEL", 0], ["DIME", 0], ["QUARTER", 0], ["ONE", 0], ["FIVE", 0], ["TEN", 0], ["TWENTY", 0], ["ONE HUNDRED", 0]]))
+
+  // console.log(checkCashRegister(19.50, 20.00, [["PENNY", 0.01], ["NICKEL", 0], ["DIME", 0], ["QUARTER", 0], ["ONE", 1.00], ["FIVE", 0], ["TEN", 0], ["TWENTY", 0], ["ONE HUNDRED", 0]]))
+
+  // console.log(checkCashRegister(19.50, 20.00, [["PENNY", 0.50], ["NICKEL", 0], ["DIME", 0], ["QUARTER", 0], ["ONE", 0], ["FIVE", 0], ["TEN", 0], ["TWENTY", 0], ["ONE HUNDRED", 0]]))
+
+  //[["TWENTY", 60.00], ["TEN", 20.00], ["FIVE", 15], ["ONE", 1], ["QUARTER", 0.50], ["DIME", 0.20], ["PENNY", 0.04]]
+
+
+  //14货物进仓
+  function updateInventory(arr1, arr2) {
+    // All inventory must be accounted for or you're fired!
+    var result = [];
+    if (!arr2.length) {
+      result = arr1;
+    } else if (!arr1.length) {
+      result = arr2;
+    } else {
+      var newArr = arr2;
+      for (var i = 0; i < arr1.length; i++) {
+        for (var j = 0; j < arr2.length; j++) {
+          if (arr1[i][1] === arr2[j][1]) {
+            var num = arr1[i][0] + arr2[j][0];
+            arr1[i][0] = num;
+            newArr.splice(j, 1);
+            //console.log(JSON.stringify(result));
+            break;
+          }
+        }
+      }
+      result = arr1.concat(newArr);
+    }
+
+    result = result.sort(function(a, b) {
+        var codeA = a[1].charCodeAt(0);
+        var codeB = b[1].charCodeAt(0);
+        return codeA - codeB;
+      })
+      //console.log(JSON.stringify(result));
+    return result;
+  }
+
+  // Example inventory lists
+  //var curInv = [[21, "Bowling Ball"], [2, "Dirty Sock"], [1, "Hair Pin"], [5, "Microphone"]];
+
+  //var newInv = [[2, "Hair Pin"], [3, "Half-Eaten Apple"], [67, "Bowling Ball"], [7, "Toothpaste"]];
+
+  var curInv = [];
+
+  var newInv = [
+    [2, "Hair Pin"],
+    [3, "Half-Eaten Apple"],
+    [67, "Bowling Ball"],
+    [7, "Toothpaste"]
+  ];
+
+  updateInventory(curInv, newInv);
+  //[[88, "Bowling Ball"], [2, "Dirty Sock"], [3, "Hair Pin"], [3, "Half-Eaten Apple"], [5, "Microphone"], [7, "Toothpaste"]]
+
+
+  /*15把一个字符串中的字符重新排列生成新的字符串，返回新生成的字符串里没有连续重复字符的字符串个数.连续重复只以单个字符为准
+
+  例如, aab 应该返回 2 因为它总共有6中排列 (aab, aab, aba, aba, baa, baa), 但是只有两个 (aba and aba)没有连续重复的字符 (在本例中是 a).*/
+  function permAlone(str) {
+    var arr = str.split('');
+    var result = permutate(arr);
+    //console.log(result);
+    var count = result.length;
+    for (var i = 0; i < result.length; i++) {
+      var reg = /([A-Za-z0-9])(?=\1+)/g;
+      var str = result[i].join('');
+      var res = str.match(reg);
+      if (res) count--;
+    }
+    //console.log(count)
+    return count;
+  }
+
+  function permutate(array, permutatedArray) {
+    if (!permutatedArray) {
+      permutatedArray = [];
+    }
+
+    if (array.length > 1) {
+
+      //弹出第一个数
+      var elementCur = array.shift();
+
+      //排列剩余的数组
+      permutate(array, permutatedArray);
+      //返回剩余的数组的排列长度
+      var permutatedArrayLen = permutatedArray.length;
+      //第一个数与其他剩余数组所有数组组合
+      for (var j = 0; j < permutatedArrayLen; j++) {
+        //弹出不齐的组
+
+        var p = permutatedArray.shift();
+
+        //把当前元素放到排列好的数组的所有位置
+        for (var i = 0; i <= p.length; i++) {
+          //复制排列好的数组
+          var r = p.slice(0);
+
+          //插入数据到数组的位置
+          r.splice(i, 0, elementCur);
+
+          //保存
+          permutatedArray.push(r)
+        }
+      }
+
+      //退出条件
+    } else {
+      permutatedArray.push([array[0]]);
+
+    }
+    return permutatedArray;
+  }
+
+  permAlone('abb');
+
+  /*16让日期区间更友好！
+
+  把常见的日期格式如：YYYY-MM-DD 转换成一种更易读的格式。*/
+  function makeFriendlyDates(arr) {
+    var date1 = arr[0].split('-');
+    var date2 = arr[1].split('-');
+    var year1 = parseInt(date1[0]);
+    var year2 = parseInt(date2[0]);
+    var month1 = parseInt(date1[1]);
+    var month2 = parseInt(date2[1]);
+    var day1 = parseInt(date1[2]);
+    var day2 = parseInt(date2[2]);
+    var cmonth1 = monthChange(date1[1]);
+    var cmonth2 = monthChange(date2[1]);
+    var cday1 = dayChange(date1[2]);
+    var cday2 = dayChange(date2[2]);
+    var newArr = [];
+    var currentDate = parseInt(new Date().getFullYear());
+
+    //获取两个日期相差的天数
+    var strDateS = new Date(date1[0], date1[1] - 1, date1[2]).getTime();
+    var strDateE = new Date(date2[0], date2[1] - 1, date2[2]).getTime();
+    var iDays = parseInt(Math.abs(strDateS - strDateE) / 1000 / 60 / 60 / 24);
+
+    var s1 = cmonth1 + ' ' + cday1;
+    var s2;
+    if (year1 === year2 && month1 === month2 && day1 === day2) {
+      newArr.push(cmonth1 + ' ' + cday1 + ',' + ' ' + year1);
+      return newArr;
+    }
+    // if (year1 === currentDate) {
+    //   if (iDays>365) s1 += ','+ ' ' +year1;
+    // }else {
+    //   s1 += ','+ ' ' +year1;
+    // }
+
+    if (year1 !== currentDate || iDays > 365) {
+      s1 += ',' + ' ' + year1;
+    }
+
+    if (iDays < 365) {
+      if (cmonth1 == cmonth2 && cday2 > cday1) {
+        s2 = cday2;
+      } else {
+        s2 = cmonth2 + ' ' + cday2;
+      }
+    } else {
+      s2 = cmonth2 + ' ' + cday2 + ',' + ' ' + year2;
+    }
+
+    newArr.push(s1);
+    newArr.push(s2);
+    return newArr;
+  }
+
+  function monthChange(month) {
+    var month;
+    switch (month) {
+      case '01':
+        month = 'January';
+        break;
+      case '02':
+        month = 'February';
+        break;
+      case '03':
+        month = 'March';
+        break;
+      case '04':
+        month = 'April';
+        break;
+      case '05':
+        month = 'May';
+        break;
+      case '06':
+        month = 'June';
+        break;
+      case '07':
+        month = 'July';
+        break;
+      case '08':
+        month = 'August';
+        break;
+      case '09':
+        month = 'September';
+        break;
+      case '10':
+        month = 'October';
+        break;
+      case '11':
+        month = 'November';
+        break;
+      case '12':
+        month = 'December';
+        break;
+    }
+    return month;
+  }
+
+  function dayChange(day) {
+    var dayResult;
+    var tmp = parseInt(day);
+    switch (tmp) {
+      case 1:
+        dayResult = '1st';
+        break;
+      case 2:
+        dayResult = '2nd';
+        break;
+      case 3:
+        dayResult = '3rd';
+        break;
+      default:
+        dayResult = tmp + 'th';
+    }
+    return dayResult;
+  }
+
+  console.log(makeFriendlyDates(["2022-09-05", "2023-09-04"]));
+
+  /*17用下面给定的方法构造一个对象.
+
+  方法有 getFirstName(), getLastName(), getFullName(), setFirstName(first), setLastName(last), and setFullName(firstAndLast).
+
+  所有有参数的方法只接受一个字符串参数.*/
+  var Person = function(firstAndLast) {
+    var firstName = firstAndLast.split(' ')[0];
+    var lastName = firstAndLast.split(' ')[1];
+
+    this.getFirstName = function() {
+      return firstName;
+    };
+    this.getLastName = function() {
+      return lastName;
+    };
+    this.getFullName = function() {
+      return firstName + ' ' + lastName;
+
+    };
+    this.setFirstName = function(first) {
+      firstName = first;
+    };
+    this.setLastName = function(last) {
+      lastName = last;
+
+    };
+    this.setFullName = function(firstAndLast) {
+      firstName = firstAndLast.split(' ')[0];
+      lastName = firstAndLast.split(' ')[1];
+
+    };
+  };
+
+  var bob = new Person('Bob Ross');
+  bob.setFirstName('jim');
+  //console.log(bob.getFullName());
+
+  /*18返回一个数组，其内容是把原数组中对应元素的平均海拔转换成其对应的轨道周期.*/
+  function orbitalPeriod(arr) {
+    var GM = 398600.4418;
+    var earthRadius = 6367.4447;
+    var newArr = [];
+    for (var i = 0; i < arr.length; i++) {
+      var avgAlt = arr[i].avgAlt;
+      var name = arr[i].name;
+      var orbitalPeriod = parseInt(Math.round(2 * Math.PI * (Math.sqrt(Math.pow(avgAlt + earthRadius, 3) / GM))));
+      var obj = {
+        'name': name,
+        'orbitalPeriod': orbitalPeriod
+      };
+      newArr.push(obj);
+    }
+    //console.log(newArr);
+    return newArr;
+  }
+
+  orbitalPeriod([{
+    name: "iss",
+    avgAlt: 413.6
+  }, {
+    name: "hubble",
+    avgAlt: 556.7
+  }, {
+    name: "moon",
+    avgAlt: 378632.553
+  }])
+
+  //19找到你的另一半
+  function pairwise(arr, arg) {
+    if (!arr.length) return 0;
+    var array = [];
+    for (var i = 0; i < arr.length; i++) {
+      for (var j = i + 1; j < arr.length; j++) {
+        if (arr[i] + arr[j] === arg && array.indexOf(i) == -1 && array.indexOf(j) == -1) {
+          array.push(i);
+          array.push(j);
+          break;
+        }
+      }
+    }
+    var value = array.reduce(function(a, b) {
+      return a + b;
+    });
+    return value;
+  }
+
+  pairwise([1, 4, 2, 3, 0, 5], 7);
+  </script>
+</body>
+
+</html>
